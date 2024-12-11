@@ -1,6 +1,7 @@
 package backend.academy.flame.cli;
 
 import backend.academy.flame.model.Configs;
+import backend.academy.flame.model.ImageFormat;
 import backend.academy.flame.model.TransformationFunction;
 import lombok.Getter;
 import lombok.Setter;
@@ -70,13 +71,33 @@ public class ConsoleCommunicator {
         System.out.println("4 - POLAR");
         System.out.println("5 - DISK");
 
-        int transformationChoice;
+        int transformationChoiceNumber;
         while (true) {
-            transformationChoice = getIntInput();
-            if (transformationChoice >= 1 && transformationChoice <= 5) {
+            transformationChoiceNumber = getIntInput();
+            if (transformationChoiceNumber >= 1 && transformationChoiceNumber <= 5) {
                 break;
             }
             System.out.println("Ошибка! Укажите число от 1 до 5.");
+        }
+
+        System.out.println("Выберите один из трех форматов изображения(введите только цифру):");
+        System.out.println("1. PNG");
+        System.out.println("2. JPEG");
+        System.out.println("3. BMP");
+        int imageFormatNumber;
+        ImageFormat format;
+        while (true) {
+            imageFormatNumber = getIntInput();
+            if (imageFormatNumber >= 1 && imageFormatNumber <= 3) {
+                format = switch (imageFormatNumber){
+                    case 1 -> ImageFormat.PNG;
+                    case 2 -> ImageFormat.JPEG;
+                    case 3 -> ImageFormat.BMP;
+                    default -> throw new IllegalArgumentException("Такого варианта нет, там где-то ошибка.");
+                };
+                break;
+            }
+            System.out.println("Ошибка! Количество итераций должно быть не менее 100.");
         }
 
         Configs configs = Configs.builder()
@@ -85,14 +106,15 @@ public class ConsoleCommunicator {
             .iterationCount(iterations)
             .affineCount(affinsCount)
             .symmetry(symmetry)
-            .transform(transformation(transformationChoice))
+            .transform(transformation(transformationChoiceNumber))
+            .format(format)
             .build();
 
         System.out.println("Введенные параметры:");
         System.out.println("Высота: " + height);
         System.out.println("Ширина: " + width);
         System.out.println("Итерации: " + iterations);
-        System.out.println("Выбранное преобразование: " + transformation(transformationChoice));
+        System.out.println("Выбранное преобразование: " + transformation(transformationChoiceNumber));
 
         return configs;
     }

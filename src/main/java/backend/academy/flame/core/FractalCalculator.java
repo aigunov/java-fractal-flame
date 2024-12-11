@@ -7,14 +7,11 @@ import backend.academy.flame.core.factory.SinusTransformFactory;
 import backend.academy.flame.core.factory.SphereTransformFactory;
 import backend.academy.flame.core.factory.TransformationFactory;
 import backend.academy.flame.core.transforms.Transformation;
-import backend.academy.flame.model.Coefficients;
 import backend.academy.flame.model.Configs;
 import backend.academy.flame.model.FractalImage;
 import backend.academy.flame.model.Pixel;
 import backend.academy.flame.model.Point;
 import backend.academy.flame.model.TransformationFunction;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.Getter;
 import lombok.Setter;
@@ -96,7 +93,7 @@ public class FractalCalculator {
             newY = y;
         }
         correction(configs.width(), configs.height());
-        return new FractalImage(pixels, configs.width(), configs.height());
+        return new FractalImage(configs, pixels, configs.width(), configs.height());
     }
 
     private Point rotate(Point point, double angle, int width, int height) {

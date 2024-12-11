@@ -1,4 +1,7 @@
 package backend.academy.flame.model;
 
-public record FractalImage (Pixel[][] pixels, int width, int height){
+public record FractalImage(Configs configs,
+                           Pixel[][] pixels,
+                           int width,
+                           int height) {
 }

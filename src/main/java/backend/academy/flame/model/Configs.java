@@ -8,5 +8,6 @@ public record Configs(int height,
                       int iterationCount,
                       int affineCount,
                       int symmetry,
-                      TransformationFunction transform) {
+                      TransformationFunction transform,
+                      ImageFormat format) {
 }
