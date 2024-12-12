@@ -1,7 +1,6 @@
 package backend.academy.flame.core;
 
 import backend.academy.flame.model.Configs;
-import backend.academy.flame.model.FractalImage;
 import backend.academy.flame.model.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +25,7 @@ public class MultiThreadCalculator extends FractalCalculator {
     }
 
     @Override
-    public FractalImage render(Configs configs) {
-        chooseTransformation(configs.transform());
-        init(configs.width(), configs.height());
-
+    public void render(Configs configs) {
         List<Future<?>> tasks = new ArrayList<>();
         var coefficients = coefficientGenerator.generateCoefficientsCompression(configs.affineCount());
 
@@ -92,9 +88,6 @@ public class MultiThreadCalculator extends FractalCalculator {
             }
         }
 
-        correction(configs.width(), configs.height());
         executor.shutdown();
-
-        return new FractalImage(configs, pixels, configs.width(), configs.height());
     }
 }

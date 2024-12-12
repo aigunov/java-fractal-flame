@@ -2,9 +2,10 @@ package backend.academy.flame.cli;
 
 import backend.academy.flame.model.Configs;
 import java.io.PrintStream;
+import java.time.Duration;
 
 public class ReportGenerator {
-    private final PrintStream out;
+    private PrintStream out;
 
     public ReportGenerator(PrintStream out) {
         this.out = out;

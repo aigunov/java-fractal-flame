@@ -1,5 +1,6 @@
 package backend.academy.flame.core;
 
+import backend.academy.flame.cli.ReportGenerator;
 import backend.academy.flame.core.factory.DiskTransformFactory;
 import backend.academy.flame.core.factory.HeartTransformFactory;
 import backend.academy.flame.core.factory.PolarTransformationFactory;
@@ -18,6 +19,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class FractalCalculator {
+    private ReportGenerator reportGenerator = new ReportGenerator(System.out);
+
     protected double XMAX;
     protected double XMIN;
     protected double YMAX = 1.0;
@@ -40,7 +43,22 @@ public abstract class FractalCalculator {
         }
     }
 
-    public abstract FractalImage render(Configs configs);
+    public abstract void render(Configs configs);
+
+    public FractalImage process(Configs configs){
+        chooseTransformation(configs.transform());
+        init(configs.width(), configs.height());
+
+        long startTime = System.currentTimeMillis();
+
+        render(configs);
+
+        correction(configs.width(), configs.height());
+
+        long endTime = System.currentTimeMillis();
+        reportGenerator.generateReport(configs, endTime - startTime);
+        return new FractalImage(configs, pixels, configs.width(), configs.height());
+    }
 
     protected Point rotate(Point point, double angle, int width, int height) {
         double centerX = width / 2.0;

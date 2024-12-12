@@ -1,7 +1,6 @@
 package backend.academy.flame.core;
 
 import backend.academy.flame.model.Configs;
-import backend.academy.flame.model.FractalImage;
 import backend.academy.flame.model.Point;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.Getter;
@@ -14,10 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FractalCalculatorSingleThread extends FractalCalculator {
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    public FractalImage render(Configs configs) {
-        chooseTransformation(configs.transform());
-        init(configs.width(), configs.height());
-
+    public void render(Configs configs) {
         var newX = random.nextDouble(XMIN, XMAX);
         var newY = random.nextDouble(YMIN, YMAX);
 
@@ -62,7 +58,5 @@ public class FractalCalculatorSingleThread extends FractalCalculator {
             newX = x;
             newY = y;
         }
-        correction(configs.width(), configs.height());
-        return new FractalImage(configs, pixels, configs.width(), configs.height());
     }
 }
