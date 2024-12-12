@@ -61,7 +61,7 @@ public class ConsoleCommunicator {
             if (symmetry > 0 && symmetry < 7) {
                 break;
             }
-            System.out.println("Ошибка! Количество итераций должно быть не менее 100.");
+            System.out.println("Ошибка! Количество симметрий должно быть не менее 100.");
         }
 
         System.out.println("Выберите нелинейное преобразование, указав число от 1 до 5:");
@@ -97,7 +97,17 @@ public class ConsoleCommunicator {
                 };
                 break;
             }
-            System.out.println("Ошибка! Количество итераций должно быть не менее 100.");
+            System.out.println("Ошибка!");
+        }
+
+        System.out.println("Выберите желаемое количество потоков для выполнения программы (от 1 до 5)");
+        int threadsCount;
+        while (true) {
+            threadsCount = getIntInput();
+            if (threadsCount >= 1 && threadsCount <= 5) {
+                break;
+            }
+            System.out.println("Ошибка! Укажите число потоков от 1 до 5.");
         }
 
         Configs configs = Configs.builder()
@@ -108,6 +118,7 @@ public class ConsoleCommunicator {
             .symmetry(symmetry)
             .transform(transformation(transformationChoiceNumber))
             .format(format)
+            .threadsCount(threadsCount)
             .build();
 
         System.out.println("Введенные параметры:");
