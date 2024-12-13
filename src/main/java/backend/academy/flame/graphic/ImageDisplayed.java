@@ -9,6 +9,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Класс Отображает фрактальное пламя в окне
+ */
 @SuppressFBWarnings({"S508C_NON_TRANSLATABLE_STRING", "S508C_NO_SETSIZE"})
 public class ImageDisplayed {
     /**

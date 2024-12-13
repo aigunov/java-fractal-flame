@@ -4,6 +4,11 @@ import backend.academy.flame.cli.ConsoleCommunicator;
 import backend.academy.flame.core.FractalCalculator;
 import backend.academy.flame.graphic.ImageManager;
 
+/**
+ * Главный класс проекта,
+ * через запуск метода start которого
+ * начинается вся генерация
+ */
 public class FractalFlame {
 
     private final ImageManager manager = new ImageManager();

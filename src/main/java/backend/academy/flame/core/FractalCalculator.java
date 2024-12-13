@@ -16,6 +16,12 @@ import backend.academy.flame.model.TransformationFunction;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Абстрактный класс генератор пламени
+ * Один абстрактный метод генерации и расчета точки
+ * который отличается в зависимости от реализации
+ * однопоточной или многопоточной
+ */
 @SuppressWarnings({"MagicNumber"})
 @Getter
 @Setter
@@ -36,6 +42,11 @@ public abstract class FractalCalculator {
         coefficientGenerator = new CoefficientGenerator();
     }
 
+    /**
+     * Статический метод для создания объект конкретной реализации без создания фабрики
+     * @param countOfThreads - параметр на который ориентируется метод при определении конкретной реализации
+     * @return объект определенного класса наследника в зависимости от выбора пользователя
+     */
     public static FractalCalculator chooseRealisation(int countOfThreads) {
         if (countOfThreads == 1) {
             return new FractalCalculatorSingleThread();
@@ -46,6 +57,11 @@ public abstract class FractalCalculator {
 
     public abstract void render(Configs configs);
 
+    /**
+     * Главный управляющий метод класса
+     * @param configs настройки системы пользователем
+     * @return матрицу сгенерированных точек и другую информацию
+     */
     public FractalImage process(Configs configs) {
         chooseTransformation(configs.transform());
         init(configs.width(), configs.height());
@@ -61,6 +77,14 @@ public abstract class FractalCalculator {
         return new FractalImage(configs, pixels, configs.width(), configs.height());
     }
 
+    /**
+     * Метод для создания симметрии точки
+     * @param point - изначальная точка
+     * @param angle - угол смещения
+     * @param width - ширина
+     * @param height - высота
+     * @return перемещенную на n-ый угол точку
+     */
     protected Point rotate(Point point, double angle, int width, int height) {
         double centerX = width / 2.0;
         double centerY = height / 2.0;
@@ -74,7 +98,15 @@ public abstract class FractalCalculator {
         return new Point(rotatedX + centerX, rotatedY + centerY);
     }
 
-    protected void correction(int width, int height) {
+    /**
+     * Метод гамма коррекции итоговой матрицы
+     * необходим чтобы избавиться от шумов на итоговой картине
+     * посредством отображения частоты попадания в точку
+     * на нормали логарифмическим образом
+     * @param width - ширина изображения
+     * @param height - высота изображения
+     */
+    private void correction(int width, int height) {
         double max = 0.0;
         double gamma = 0.6;
         for (int row = 0; row < width; row++) {
@@ -100,7 +132,7 @@ public abstract class FractalCalculator {
         }
     }
 
-    protected void init(int width, int height) {
+    private void init(int width, int height) {
         double aspectRatio = (double) width / height;
         xMax = aspectRatio / 2;
         xMin = -xMax;

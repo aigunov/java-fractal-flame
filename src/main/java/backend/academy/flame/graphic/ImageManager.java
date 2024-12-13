@@ -7,6 +7,10 @@ import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Класс ответственный за управления
+ * сущностями графического отображения пламени
+ */
 @SuppressWarnings({"RegexpSinglelineJava"})
 @Getter
 @Setter

@@ -4,6 +4,9 @@ import backend.academy.flame.model.Configs;
 import java.io.PrintStream;
 import java.time.Duration;
 
+/**
+ * Класс для вывода статистики работы
+ */
 public class ReportGenerator {
     private PrintStream out;
 

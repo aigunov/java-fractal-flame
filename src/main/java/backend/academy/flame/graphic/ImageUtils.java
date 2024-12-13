@@ -10,6 +10,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Класс Сохраняет сгенерированное пламя в изображение
+ */
 @SuppressFBWarnings({"PATH_TRAVERSAL_IN"})
 @Slf4j
 public class ImageUtils {

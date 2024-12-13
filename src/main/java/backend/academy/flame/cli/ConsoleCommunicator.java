@@ -9,6 +9,9 @@ import java.util.Scanner;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Класс для сбора информации у пользователя через консоль
+ */
 @SuppressWarnings({"RegexpSinglelineJava", "MagicNumber"})
 @Getter
 @Setter
