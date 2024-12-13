@@ -2,6 +2,7 @@ package backend.academy.flame.core.transforms;
 
 import backend.academy.flame.model.Point;
 
+@SuppressWarnings({"MagicNumber"})
 public class SinusTransform implements Transformation {
     @Override
     public Point apply(Point point) {

@@ -1,12 +1,13 @@
 package backend.academy.flame.graphic;
 
 import backend.academy.flame.model.FractalImage;
-import lombok.Getter;
-import lombok.Setter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import lombok.Getter;
+import lombok.Setter;
 
+@SuppressWarnings({"RegexpSinglelineJava"})
 @Getter
 @Setter
 public class ImageManager {
@@ -18,7 +19,7 @@ public class ImageManager {
         this.displayed = new ImageDisplayed();
     }
 
-    public void imageProcessor(FractalImage image){
+    public void imageProcessor(FractalImage image) {
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         executor.submit(() -> utils.saveImage(image));

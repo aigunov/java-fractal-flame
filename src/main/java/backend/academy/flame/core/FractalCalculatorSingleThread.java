@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings({"MagicNumber"})
 @Getter
 @Setter
 @Slf4j
@@ -14,8 +15,8 @@ public class FractalCalculatorSingleThread extends FractalCalculator {
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public void render(Configs configs) {
-        var newX = random.nextDouble(XMIN, XMAX);
-        var newY = random.nextDouble(YMIN, YMAX);
+        var newX = random.nextDouble(xMin, xMax);
+        var newY = random.nextDouble(yMin, yMax);
 
         var coefficients = coefficientGenerator.generateCoefficientsCompression(configs.affineCount());
 
@@ -34,8 +35,8 @@ public class FractalCalculatorSingleThread extends FractalCalculator {
                 for (int s = 0; s < configs.symmetry(); theta += Math.PI * 2 / configs.symmetry(), ++s) {
                     var rotatedPoint = rotate(point, theta, configs.width(), configs.height());
 
-                    double normalizedX = (XMAX - rotatedPoint.x()) / (XMAX - XMIN);
-                    double normalizedY = (YMAX - rotatedPoint.y()) / (YMAX - YMIN);
+                    double normalizedX = (xMax - rotatedPoint.x()) / (xMax - xMin);
+                    double normalizedY = (yMax - rotatedPoint.y()) / (yMax - yMin);
                     int pixelX = (int) (configs.width() - normalizedX * configs.width());
                     int pixelY = (int) (configs.height() - normalizedY * configs.height());
 

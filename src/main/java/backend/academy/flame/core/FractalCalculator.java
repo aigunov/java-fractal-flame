@@ -16,15 +16,16 @@ import backend.academy.flame.model.TransformationFunction;
 import lombok.Getter;
 import lombok.Setter;
 
+@SuppressWarnings({"MagicNumber"})
 @Getter
 @Setter
 public abstract class FractalCalculator {
     private ReportGenerator reportGenerator = new ReportGenerator(System.out);
 
-    protected double XMAX;
-    protected double XMIN;
-    protected double YMAX = 1.0;
-    protected double YMIN = -1.0;
+    protected double xMax;
+    protected double xMin;
+    protected double yMax = 1.0;
+    protected double yMin = -1.0;
 
     protected CoefficientGenerator coefficientGenerator;
     protected Pixel[][] pixels;
@@ -35,17 +36,17 @@ public abstract class FractalCalculator {
         coefficientGenerator = new CoefficientGenerator();
     }
 
-    public static FractalCalculator chooseRealisation(int countOfThreads){
-        if (countOfThreads == 1){
+    public static FractalCalculator chooseRealisation(int countOfThreads) {
+        if (countOfThreads == 1) {
             return new FractalCalculatorSingleThread();
-        }else{
+        } else {
             return new MultiThreadCalculator(countOfThreads);
         }
     }
 
     public abstract void render(Configs configs);
 
-    public FractalImage process(Configs configs){
+    public FractalImage process(Configs configs) {
         chooseTransformation(configs.transform());
         init(configs.width(), configs.height());
 
@@ -101,8 +102,8 @@ public abstract class FractalCalculator {
 
     protected void init(int width, int height) {
         double aspectRatio = (double) width / height;
-        XMAX = aspectRatio / 2;
-        XMIN = -XMAX;
+        xMax = aspectRatio / 2;
+        xMin = -xMax;
 
         pixels = new Pixel[width][height];
         for (int x = 0; x < width; x++) {

@@ -2,11 +2,11 @@ package backend.academy.flame.graphic;
 
 import backend.academy.flame.model.FractalImage;
 import backend.academy.flame.model.Pixel;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class ImageDisplayed {
     /**
@@ -15,7 +15,8 @@ public class ImageDisplayed {
      * @param fractalImage объект FractalImage, содержащий данные о пикселях.
      */
     public void display(FractalImage fractalImage) {
-        BufferedImage image = new BufferedImage(fractalImage.width(), fractalImage.height(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(fractalImage.width(), fractalImage.height(),
+            BufferedImage.TYPE_INT_RGB);
 
         for (int y = 0; y < fractalImage.height(); y++) {
             for (int x = 0; x < fractalImage.width(); x++) {

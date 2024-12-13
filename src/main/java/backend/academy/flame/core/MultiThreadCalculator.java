@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings({"MagicNumber"})
 @Slf4j
 @Getter
 @Setter
@@ -32,31 +33,25 @@ public class MultiThreadCalculator extends FractalCalculator {
         int iterationsPerThread = configs.iterationCount() / ((ThreadPoolExecutor) executor).getCorePoolSize();
 
         for (int t = 0; t < ((ThreadPoolExecutor) executor).getCorePoolSize(); t++) {
-            tasks.add(executor.submit(() -> {
-                double newX = ThreadLocalRandom.current().nextDouble(XMIN, XMAX);
-                double newY = ThreadLocalRandom.current().nextDouble(YMIN, YMAX);
-
+            tasks.add(executor.submit(
+                () -> {
+                double newX = ThreadLocalRandom.current().nextDouble(xMin, xMax);
+                double newY = ThreadLocalRandom.current().nextDouble(yMin, yMax);
                 for (int i = -30; i < iterationsPerThread; i++) {
                     int idx = ThreadLocalRandom.current().nextInt(0, configs.affineCount());
                     var coeff = coefficients.get(idx);
-
                     var x = newX * coeff.a() + newY * coeff.b() + coeff.c();
                     var y = newX * coeff.d() + newY * coeff.e() + coeff.f();
-
                     if (i > 0) {
                         var point = transformation.apply(new Point(x, y));
-
                         double theta = 0.0;
                         for (int s = 0; s < configs.symmetry(); theta += Math.PI * 2 / configs.symmetry(), ++s) {
                             var rotatedPoint = rotate(point, theta, configs.width(), configs.height());
-
-                            double normalizedX = (XMAX - rotatedPoint.x()) / (XMAX - XMIN);
-                            double normalizedY = (YMAX - rotatedPoint.y()) / (YMAX - YMIN);
+                            double normalizedX = (xMax - rotatedPoint.x()) / (xMax - xMin);
+                            double normalizedY = (yMax - rotatedPoint.y()) / (yMax - yMin);
                             int pixelX = (int) (configs.width() - normalizedX * configs.width());
                             int pixelY = (int) (configs.height() - normalizedY * configs.height());
-
                             if (pixelX >= 0 && pixelY >= 0 && pixelX < configs.width() && pixelY < configs.height()) {
-                                //это будет работать только в случае если сразу два потока выбрали одну точку, что маловероятно
                                 synchronized (pixels[pixelX][pixelY]) {
                                     var pixel = pixels[pixelX][pixelY];
                                     if (pixel.count() == 0) {
@@ -73,7 +68,6 @@ public class MultiThreadCalculator extends FractalCalculator {
                             }
                         }
                     }
-
                     newX = x;
                     newY = y;
                 }

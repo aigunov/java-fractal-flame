@@ -1,12 +1,12 @@
 package backend.academy.flame.graphic;
 
 import backend.academy.flame.model.FractalImage;
-import lombok.extern.slf4j.Slf4j;
-import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ImageUtils {
@@ -35,7 +35,7 @@ public class ImageUtils {
         }
     }
 
-    private static File createFileToSaveIn(String name){
+    private static File createFileToSaveIn(String name) {
         String fileName = "fractal_" + name + ".png";
 
         File currentDir = new File(new File(System.getProperty("user.dir")), "images");
