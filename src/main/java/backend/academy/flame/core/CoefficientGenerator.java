@@ -2,6 +2,7 @@ package backend.academy.flame.core;
 
 import backend.academy.flame.model.Coefficients;
 import backend.academy.flame.model.Palette;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 public class CoefficientGenerator {
-    private Random random = new Random();
+    private Random random = new SecureRandom();
     private final List<Coefficients> coefficients = new ArrayList<>();
 
     public List<Coefficients> generateCoefficientsCompression(int n) {

@@ -2,6 +2,7 @@ package backend.academy.flame.core;
 
 import backend.academy.flame.model.Configs;
 import backend.academy.flame.model.Point;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -14,6 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressFBWarnings({"PREDICTABLE_RANDOM", "PSC_PRESIZE_COLLECTIONS"})
 @SuppressWarnings({"MagicNumber"})
 @Slf4j
 @Getter

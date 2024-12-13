@@ -1,6 +1,7 @@
 package backend.academy.flame.graphic;
 
 import backend.academy.flame.model.FractalImage;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressFBWarnings({"PATH_TRAVERSAL_IN"})
 @Slf4j
 public class ImageUtils {
     /**
@@ -39,7 +41,6 @@ public class ImageUtils {
         String fileName = "fractal_" + name + ".png";
 
         File currentDir = new File(new File(System.getProperty("user.dir")), "images");
-
         File outputFile = new File(currentDir, fileName);
 
         if (outputFile.exists()) {

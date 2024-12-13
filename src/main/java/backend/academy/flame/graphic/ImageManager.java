@@ -29,7 +29,7 @@ public class ImageManager {
         try {
             executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException e) {
-            throw new Error("Fenita la camedia: " + e.getMessage());
+            throw new Error("Fenita la camedia: " + e.getMessage(), e);
         }
 
         System.out.println("Обработка изображения завершена");

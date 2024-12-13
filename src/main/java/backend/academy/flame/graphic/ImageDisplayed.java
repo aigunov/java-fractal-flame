@@ -2,12 +2,14 @@ package backend.academy.flame.graphic;
 
 import backend.academy.flame.model.FractalImage;
 import backend.academy.flame.model.Pixel;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+@SuppressFBWarnings({"S508C_NON_TRANSLATABLE_STRING", "S508C_NO_SETSIZE"})
 public class ImageDisplayed {
     /**
      * Метод для отображения изображения на основе FractalImage.

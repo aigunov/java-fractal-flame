@@ -2,7 +2,7 @@ package backend.academy.flame.core;
 
 import backend.academy.flame.model.Configs;
 import backend.academy.flame.model.Point;
-import java.util.concurrent.ThreadLocalRandom;
+import java.security.SecureRandom;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 public class FractalCalculatorSingleThread extends FractalCalculator {
-    private final ThreadLocalRandom random = ThreadLocalRandom.current();
+    private final SecureRandom random = new SecureRandom();
 
     public void render(Configs configs) {
         var newX = random.nextDouble(xMin, xMax);

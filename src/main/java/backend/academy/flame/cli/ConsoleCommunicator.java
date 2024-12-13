@@ -3,29 +3,31 @@ package backend.academy.flame.cli;
 import backend.academy.flame.model.Configs;
 import backend.academy.flame.model.ImageFormat;
 import backend.academy.flame.model.TransformationFunction;
+import java.nio.charset.StandardCharsets;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import lombok.Getter;
 import lombok.Setter;
 
-@SuppressWarnings({"CyclomaticComplexity, RegexpSinglelineJava, MagicNumber"})
+@SuppressWarnings({"RegexpSinglelineJava", "MagicNumber"})
 @Getter
 @Setter
 public class ConsoleCommunicator {
 
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
 
-     public Configs communicate(){
+     public Configs communicate() {
+         var message = "Ошибка! Введите положительное число.";
          int height = getIntInputWithCondition("Введите высоту изображения (целое положительное число):",
-             value -> value > 0, "Ошибка! Введите положительное число.");
+             value -> value > 0, message);
          int width = getIntInputWithCondition("Введите ширину изображения (целое положительное число):",
-             value -> value > 0, "Ошибка! Введите положительное число.");
+             value -> value > 0, message);
          int affinsCount = getIntInputWithCondition("Введите количество аффинных преобразований (не менее 2):",
              value -> value >= 2, "Ошибка! Количество аффинных преобразований должно быть не менее 2.");
          int iterations = getIntInputWithCondition("Введите количество итераций (не менее 100):",
              value -> value >= 100, "Ошибка! Количество итераций должно быть не менее 100.");
-         int symmetry = getIntInputWithCondition("Введите количество желаемых симметрий от 1 до " +
-                 "6(по умолчанию 1):",
+         int symmetry = getIntInputWithCondition("Введите количество желаемых симметрий от 1 до "
+                 + "6(по умолчанию 1):",
              value -> value > 0 && value < 7, "Ошибка! Количество симметрий должно быть от 1 до 6.");
          var str = """
              System.out.println("Выберите нелинейное преобразование, указав число от 1 до 5:");
@@ -38,8 +40,8 @@ public class ConsoleCommunicator {
          int transformationChoiceNumber = getIntInputWithCondition(str,
              value -> value >= 1 && value <= 5, "Ошибка! Укажите число от 1 до 5.");
          ImageFormat format = getImageFormatInput();
-         int threadsCount = getIntInputWithCondition("Выберите желаемое количество потоков для выполнения" +
-             " программы (от 1 до 5):",
+         int threadsCount = getIntInputWithCondition("Выберите желаемое количество потоков для выполнения"
+                 + " программы (от 1 до 5):",
              value -> value >= 1 && value <= 5, "Ошибка! Укажите число потоков от 1 до 5.");
 
          return Configs.builder()
