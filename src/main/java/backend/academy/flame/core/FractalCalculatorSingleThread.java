@@ -25,7 +25,7 @@ public class FractalCalculatorSingleThread extends FractalCalculator {
             int idx = random.nextInt(0, configs.affineCount());
             var coefficient = coefficients.get(idx);
 
-            var x = newX * coefficient.a() + newY * coefficient.b() + coefficient.c();
+            var x = newY * coefficient.b() + newX * coefficient.a() + coefficient.c();
             var y = newX * coefficient.d() + newY * coefficient.e() + coefficient.f();
 
             if (i > 0) {
@@ -35,29 +35,29 @@ public class FractalCalculatorSingleThread extends FractalCalculator {
                 for (int s = 0; s < configs.symmetry(); theta += Math.PI * 2 / configs.symmetry(), ++s) {
                     var rotatedPoint = rotate(point, theta, configs.width(), configs.height());
 
-                    double normalizedX = (xMax - rotatedPoint.x()) / (xMax - xMin);
-                    double normalizedY = (yMax - rotatedPoint.y()) / (yMax - yMin);
-                    int pixelX = (int) (configs.width() - normalizedX * configs.width());
-                    int pixelY = (int) (configs.height() - normalizedY * configs.height());
+                    int pixelX = (int) (configs.width() - (xMax - rotatedPoint.x()) / (xMax - xMin)
+                        * configs.width());
+                    int pixelY = (int) (configs.height() - (yMax - rotatedPoint.y()) / (yMax - yMin)
+                        * configs.height());
 
                     if (pixelX >= 0 && pixelY >= 0 && pixelX < configs.width() && pixelY < configs.height()) {
                         var pixel = pixels[pixelX][pixelY];
                         if (pixel.count() == 0) {
                             pixel.red(coefficient.palette().red());
-                            pixel.green(coefficient.palette().green());
                             pixel.blue(coefficient.palette().blue());
+                            pixel.green(coefficient.palette().green());
                         } else {
-                            pixel.red((pixel.red() + coefficient.palette().red()) / 2);
-                            pixel.green((pixel.green() + coefficient.palette().green()) / 2);
                             pixel.blue((pixel.blue() + coefficient.palette().blue()) / 2);
+                            pixel.green((pixel.green() + coefficient.palette().green()) / 2);
+                            pixel.red((pixel.red() + coefficient.palette().red()) / 2);
                         }
                         pixel.count(pixel.count() + 1);
                     }
                 }
             }
 
-            newX = x;
             newY = y;
+            newX = x;
         }
     }
 }

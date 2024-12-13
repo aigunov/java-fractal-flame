@@ -1,6 +1,7 @@
 package backend.academy.flame.graphic;
 
 import backend.academy.flame.model.FractalImage;
+import backend.academy.flame.model.ImageFormat;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -19,7 +20,7 @@ public class ImageUtils {
      * @throws IOException если не удается записать изображение в файл.
      */
     public void saveImage(FractalImage fractal) {
-        var outputFile = createFileToSaveIn(fractal.configs().transform().toString());
+        var outputFile = createFileToSaveIn(fractal.configs().transform().toString(), fractal.configs().format());
         BufferedImage image = new BufferedImage(fractal.width(), fractal.height(), BufferedImage.TYPE_INT_RGB);
 
         for (int y = 0; y < fractal.height(); y++) {
@@ -37,8 +38,8 @@ public class ImageUtils {
         }
     }
 
-    private static File createFileToSaveIn(String name) {
-        String fileName = "fractal_" + name + ".png";
+    private static File createFileToSaveIn(String name, ImageFormat format) {
+        String fileName = "fractal_" + name + "." + format.toString().toLowerCase();
 
         File currentDir = new File(new File(System.getProperty("user.dir")), "images");
         File outputFile = new File(currentDir, fileName);
