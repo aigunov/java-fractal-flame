@@ -5,12 +5,11 @@ import backend.academy.flame.model.Point;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +28,13 @@ public class MultiThreadCalculator extends FractalCalculator {
 
     @Override
     public void render(Configs configs) {
-        List<Future<?>> tasks = new ArrayList<>();
+        List<Runnable> tasks = new ArrayList<>();
         var coefficients = coefficientGenerator.generateCoefficientsCompression(configs.affineCount());
+        var threadPoolExecutor = (ThreadPoolExecutor) executor;
+        int iterationsPerThread = configs.iterationCount() / threadPoolExecutor.getCorePoolSize();
 
-        int iterationsPerThread = configs.iterationCount() / ((ThreadPoolExecutor) executor).getCorePoolSize();
-
-        for (int t = 0; t < ((ThreadPoolExecutor) executor).getCorePoolSize(); t++) {
-            tasks.add(executor.submit(
-                () -> {
+        for (int t = 0; t < threadPoolExecutor.getCorePoolSize(); t++) {
+            tasks.add(() -> {
                 double newX = ThreadLocalRandom.current().nextDouble(xMin, xMax);
                 double newY = ThreadLocalRandom.current().nextDouble(yMin, yMax);
                 for (int i = -30; i < iterationsPerThread; i++) {
@@ -48,7 +46,7 @@ public class MultiThreadCalculator extends FractalCalculator {
                         var point = transformation.apply(new Point(x, y));
                         double theta = 0.0;
                         for (int s = 0; s < configs.symmetry(); theta += Math.PI * 2 / configs.symmetry(), ++s) {
-                            var rotatedPoint = rotate(point, theta, configs.width(), configs.height());
+                            var rotatedPoint = point.rotate(theta, configs.width(), configs.height());
                             double normalizedX = (xMax - rotatedPoint.x()) / (xMax - xMin);
                             double normalizedY = (yMax - rotatedPoint.y()) / (yMax - yMin);
                             int pixelX = (int) (configs.width() - normalizedX * configs.width());
@@ -73,17 +71,18 @@ public class MultiThreadCalculator extends FractalCalculator {
                     newX = x;
                     newY = y;
                 }
-            }));
+            });
         }
 
-        for (Future<?> task : tasks) {
-            try {
-                task.get();
-            } catch (InterruptedException | ExecutionException e) {
-                log.error("Произошла ошибка многопоточной генерации фрактального пламени: {}", e.getMessage());
-            }
+        for (Runnable task : tasks) {
+            executor.execute(task);
         }
-
         executor.shutdown();
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            log.error("Произошла ошибка многопоточной генерации фрактального пламени: {}", e.getMessage());
+            Thread.currentThread().interrupt();
+        }
     }
 }

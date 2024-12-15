@@ -1,17 +1,15 @@
 package backend.academy.flame.core;
 
 import backend.academy.flame.cli.ReportGenerator;
-import backend.academy.flame.core.factory.DiskTransformFactory;
-import backend.academy.flame.core.factory.HeartTransformFactory;
-import backend.academy.flame.core.factory.PolarTransformationFactory;
-import backend.academy.flame.core.factory.SinusTransformFactory;
-import backend.academy.flame.core.factory.SphereTransformFactory;
-import backend.academy.flame.core.factory.TransformationFactory;
+import backend.academy.flame.core.transforms.DiskTransform;
+import backend.academy.flame.core.transforms.HeartTransform;
+import backend.academy.flame.core.transforms.PolarTransform;
+import backend.academy.flame.core.transforms.SinusTransform;
+import backend.academy.flame.core.transforms.SphereTransform;
 import backend.academy.flame.core.transforms.Transformation;
 import backend.academy.flame.model.Configs;
 import backend.academy.flame.model.FractalImage;
 import backend.academy.flame.model.Pixel;
-import backend.academy.flame.model.Point;
 import backend.academy.flame.model.TransformationFunction;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +33,6 @@ public abstract class FractalCalculator {
 
     protected CoefficientGenerator coefficientGenerator;
     protected Pixel[][] pixels;
-    protected TransformationFactory transformationFactory;
     protected Transformation transformation;
 
     public FractalCalculator() {
@@ -75,27 +72,6 @@ public abstract class FractalCalculator {
         long endTime = System.currentTimeMillis();
         reportGenerator.generateReport(configs, endTime - startTime);
         return new FractalImage(configs, pixels, configs.width(), configs.height());
-    }
-
-    /**
-     * Метод для создания симметрии точки
-     * @param point - изначальная точка
-     * @param angle - угол смещения
-     * @param width - ширина
-     * @param height - высота
-     * @return перемещенную на n-ый угол точку
-     */
-    protected Point rotate(Point point, double angle, int width, int height) {
-        double centerX = width / 2.0;
-        double centerY = height / 2.0;
-
-        double relativeX = point.x() - centerX;
-        double relativeY = point.y() - centerY;
-
-        double rotatedX = relativeX * Math.cos(angle) - relativeY * Math.sin(angle);
-        double rotatedY = relativeX * Math.sin(angle) + relativeY * Math.cos(angle);
-
-        return new Point(rotatedX + centerX, rotatedY + centerY);
     }
 
     /**
@@ -147,13 +123,12 @@ public abstract class FractalCalculator {
     }
 
     protected void chooseTransformation(TransformationFunction transform) {
-        transformationFactory = switch (transform) {
-            case SINUS -> new SinusTransformFactory();
-            case DISK -> new DiskTransformFactory();
-            case HEART -> new HeartTransformFactory();
-            case POLAR -> new PolarTransformationFactory();
-            case SPHERE -> new SphereTransformFactory();
+        transformation = switch (transform) {
+            case SINUS -> new SinusTransform();
+            case DISK -> new DiskTransform();
+            case HEART -> new HeartTransform();
+            case POLAR -> new PolarTransform();
+            case SPHERE -> new SphereTransform();
         };
-        transformation = transformationFactory.transformation();
     }
 }

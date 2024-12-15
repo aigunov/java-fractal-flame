@@ -33,7 +33,7 @@ public class FractalCalculatorSingleThread extends FractalCalculator {
 
                 double theta = 0.0;
                 for (int s = 0; s < configs.symmetry(); theta += Math.PI * 2 / configs.symmetry(), ++s) {
-                    var rotatedPoint = rotate(point, theta, configs.width(), configs.height());
+                    var rotatedPoint = point.rotate(theta, configs.width(), configs.height());
 
                     int pixelX = (int) (configs.width() - (xMax - rotatedPoint.x()) / (xMax - xMin)
                         * configs.width());

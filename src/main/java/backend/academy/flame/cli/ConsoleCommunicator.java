@@ -32,6 +32,7 @@ public class ConsoleCommunicator {
          int symmetry = getIntInputWithCondition("Введите количество желаемых симметрий от 1 до "
                  + "6(по умолчанию 1):",
              value -> value > 0 && value < 7, "Ошибка! Количество симметрий должно быть от 1 до 6.");
+
          var str = """
              System.out.println("Выберите нелинейное преобразование, указав число от 1 до 5:");
              System.out.println("1 - SINUS");
