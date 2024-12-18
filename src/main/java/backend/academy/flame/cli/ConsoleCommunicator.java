@@ -38,7 +38,7 @@ public class ConsoleCommunicator {
              1 - SINUS
              2 - HEART
              3 - SPHERE
-             4 - POLARz
+             4 - POLAR
              5 - DISK
              """;
          int transformationChoiceNumber = getIntInputWithCondition(str,
