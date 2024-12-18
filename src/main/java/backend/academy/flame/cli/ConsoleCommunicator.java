@@ -34,12 +34,12 @@ public class ConsoleCommunicator {
              value -> value > 0 && value < 7, "Ошибка! Количество симметрий должно быть от 1 до 6.");
 
          var str = """
-             System.out.println("Выберите нелинейное преобразование, указав число от 1 до 5:");
-             System.out.println("1 - SINUS");
-             System.out.println("2 - HEART");
-             System.out.println("3 - SPHERE");
-             System.out.println("4 - POLAR");
-             System.out.println("5 - DISK");
+             Выберите нелинейное преобразование, указав число от 1 до 5:
+             1 - SINUS
+             2 - HEART
+             3 - SPHERE
+             4 - POLARz
+             5 - DISK
              """;
          int transformationChoiceNumber = getIntInputWithCondition(str,
              value -> value >= 1 && value <= 5, "Ошибка! Укажите число от 1 до 5.");
